@@ -18,7 +18,8 @@ filepath_samples = 'samples/'
 
 # ------------------------------------------------------------------------
 # other settings
-number_cpus = 2  # this is the number of cpus that is used by each tf.Session()
+number_cpus = 2  # this is the number of cpus that is used by each tf.Session(),
+# only used if not specified otherwise in the respective file
 
 wgan_mnist_get_statistics = False
 get_statistics = False
@@ -29,7 +30,7 @@ euler = False
 
 # ------------------------------------------------------------------------
 # settings for parallel training
-number_available_cpus = 2
+number_available_cpus = 2  # only used if not specified otherwise in the respective file
 number_parallel_jobs = number_available_cpus / number_cpus
 
 
@@ -121,106 +122,7 @@ ordered_keys_11 = ('input_dim', 'batch_size', 'n_features_first',
                    'target_dim', 'target_number_samples', 'target_sigma', 'd_freq', 'd_steps')
 
 # ------------------------------------------------------------------------
-# parameter arrays for parallel training of wgan_mnist_partly_fixed
-# this is the standard configuration (without fixed layers) for comparisson
-param_dict1_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [5],
-                 'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs': [20000], 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [2],
-                 'fix_first_layers_gen': [False], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [False],
-                 'fix_first_layers_disc': [False], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array1_0 = get_parameter_array(param_dict1_0)
-
-param_dict1_1 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [5],
-                 'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs': [20000], 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [0.5, 1, 2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [True, False],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [True, False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array1_1 = get_parameter_array(param_dict1_1)
-
-param_dict1_2 = {'input_dim': [256], 'batch_size': [50], 'n_features_first': [256, 512], 'critic_iters': [5],
-                 'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs': [20000], 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [1, 2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [True, False],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [True, False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array1_2 = get_parameter_array(param_dict1_2)
-
-param_array1 = param_array1_0 + param_array1_1 + param_array1_2
-
-# -------------------------------
-# try out different learning rates and gradient penalty factors with best options fro above outcome of param_array1
-# change learning rate and fix lamba_reg as before
-param_dict2_1 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [5],
-                 'lambda_reg': [10], 'learning_rate': [1e-3, 1e-2], 'epochs': [20000], 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [1, 2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [False],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array2_1 = get_parameter_array(param_dict2_1)
-
-# fix learning rate as before and change lamba_reg
-param_dict2_2 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [5],
-                 'lambda_reg': [1, 0.1], 'learning_rate': [1e-4], 'epochs': [20000], 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [1, 2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [False],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array2_2 = get_parameter_array(param_dict2_2)
-
-# change learning rate and change lamba_reg
-param_dict2_3 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [5],
-                 'lambda_reg': [1, 0.1], 'learning_rate': [1e-3, 1e-2], 'epochs': [20000], 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [1, 2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [False],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array2_3 = get_parameter_array(param_dict2_3)
-
-param_array2 = param_array2_1 + param_array2_2 + param_array2_3
-
-# -------------------------------
-# try out using unfixed gradient only with  different learning rates and gradient penalty factors
-param_dict3_1 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [5],
-                 'lambda_reg': [10, 1, 0.1], 'learning_rate': [1e-4, 1e-3, 1e-2], 'epochs': [20000],
-                 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [1, 2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [False],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [False],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [True],
-                 'extra_fully_connected_layer': [False], 'init_method': [None],
-                 'BN_layers_trainable': [True], 'different_optimizers': [False]}
-param_array3 = get_parameter_array(param_dict3_1)
-
-# -------------------------------
-# try out DCGAN
+# parameter arrays for parallel training of training_mnist_partly_fixed.py
 param_dict4_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [1],
                  'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs': [20000],
                  'fixed_noise_size': [128],
@@ -367,18 +269,6 @@ param_dict7_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [25
                  'BN_layers_trainable': [False, True], 'different_optimizers': [False]}
 param_array7_0 = get_parameter_array(param_dict7_0)
 
-param_dict7_1 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [1],
-                 'lambda_reg': [10], 'learning_rate': [1e-4, 1e-3], 'epochs': [20000],
-                 'fixed_noise_size': [128],
-                 'n_features_reduction_factor': [2],
-                 'fix_first_layers_gen': [True], 'fix_last_layer_gen': [False],
-                 'fix_2last_layer_gen': [True],
-                 'fix_first_layers_disc': [True], 'fix_last_layer_disc': [False],
-                 'fix_2last_layer_disc': [True],
-                 'architecture': ['WGANGP'], 'use_unfixed_gradient_only': [False],
-                 'extra_fully_connected_layer': [False], 'init_method': ['He'],
-                 'BN_layers_trainable': [False], 'different_optimizers': [False]}
-param_array7_1 = get_parameter_array(param_dict7_1)
 
 param_dict7_2 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [1],
                  'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs': [20000],
@@ -462,12 +352,6 @@ partly_fixed_param_array5 = get_parameter_array(partly_fixed_param_dict5, ordere
 
 # ------------------------------------------------------------------------
 # parameter arrays for parallel training of perturbed_pretrained_network_mnist
-perturbed_param_dict1_0 = {'epochs_new': [10000], 'standard_deviation_factor_new': [1, 2, 3, 4],
-                           'fix_last_layer_gen_new': [False], 'fix_2last_layer_gen_new': [True],
-                           'fix_last_layer_disc_new': [False], 'fix_2last_layer_disc_new': [True],
-                           'pretrained_model': ['DCGAN', 'WGANGP'], 'perturb_BN': [False]}
-perturbed_param_array1 = get_parameter_array(perturbed_param_dict1_0, ordered_keys=ordered_keys_2)
-
 perturbed_param_dict2_0 = {'epochs_new': [10000], 'standard_deviation_factor_new': [0.25, 0.5, 1, 2],
                            'fix_last_layer_gen_new': [False], 'fix_2last_layer_gen_new': [True],
                            'fix_last_layer_disc_new': [False], 'fix_2last_layer_disc_new': [True],
@@ -492,29 +376,6 @@ subset_param_dict1_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_firs
                         'second_train_on_others_only': [False, True], 'perturb_factor': [0, 0.5, 1]}
 subset_param_array1 = get_parameter_array(subset_param_dict1_0, ordered_keys=ordered_keys_3)
 
-# ------------------------------------------------------------------------
-# parameter arrays for parallel training of training_subset_numbers_mnist
-train2steps_param_dict1_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [1],
-                             'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs1': [100, 200, 300, 400],
-                             'epochs2': [30000],
-                             'fixed_noise_size': [128],
-                             'n_features_reduction_factor': [2],
-                             'fix_last_layer_gen': [False], 'fix_2last_layer_gen': [True],
-                             'fix_last_layer_disc': [False], 'fix_2last_layer_disc': [True],
-                             'architecture': ['DCGAN'], 'BN_layers_trainable': [False, True],
-                             'different_optimizers': [False]}
-train2steps_param_array1 = get_parameter_array(train2steps_param_dict1_0, ordered_keys=ordered_keys_4)
-
-train2steps_param_dict2_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256], 'critic_iters': [1],
-                             'lambda_reg': [10], 'learning_rate': [1e-4], 'epochs1': [100, 200, 300, 400],
-                             'epochs2': [30000],
-                             'fixed_noise_size': [128],
-                             'n_features_reduction_factor': [2],
-                             'fix_last_layer_gen': [False], 'fix_2last_layer_gen': [True],
-                             'fix_last_layer_disc': [False], 'fix_2last_layer_disc': [True],
-                             'architecture': ['DCGAN'], 'BN_layers_trainable': [False, True],
-                             'different_optimizers': [True]}
-train2steps_param_array2 = get_parameter_array(train2steps_param_dict2_0, ordered_keys=ordered_keys_4)
 
 # ------------------------------------------------------------------------
 # parameter arrays for parallel training of old_JLSWGN.py
@@ -628,7 +489,7 @@ JLSWGN_toy_param_array3 = JLSWGN_toy_param_array3_0 + JLSWGN_toy_param_array3_1
 # parameter arrays for parallel training of JLSWGN on CIFAR10 or CelebA or MNIST
 # -------
 # cifar10
-JLSWGN_param_dict1_0 = {'input_dim': [128], 'batch_size': [100, 1000], 'n_features_first': [256],
+JLSWGN_param_dict1_0 = {'input_dim': [128], 'batch_size': [100], 'n_features_first': [256],
                         'learning_rate': [5e-4],
                         'epochs': [100000], 'fixed_noise_size': [128], 'n_features_reduction_factor': [2],
                         'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [True, False],
@@ -638,15 +499,7 @@ JLSWGN_param_array1_0 = get_parameter_array(JLSWGN_param_dict1_0, ordered_keys=o
 
 JLSWGN_param_array1 = JLSWGN_param_array1_0
 
-JLSWGN_param_dict1_1 = {'input_dim': [128], 'batch_size': [100], 'n_features_first': [256],
-                        'learning_rate': [5e-4],
-                        'epochs': [100000], 'fixed_noise_size': [128], 'n_features_reduction_factor': [2],
-                        'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [True],
-                        'JL_dim': [32 * 32 / 2, None], 'JL_error': [None],
-                        'n_projections': [10000], 'data': ['cifar10']}
-JLSWGN_param_array1_1 = get_parameter_array(JLSWGN_param_dict1_1, ordered_keys=ordered_keys_7)
-
-JLSWGN_param_dict1_2 = {'input_dim': [128], 'batch_size': [100, 1000], 'n_features_first': [256],
+JLSWGN_param_dict1_2 = {'input_dim': [128], 'batch_size': [100], 'n_features_first': [256],
                         'learning_rate': [5e-4],
                         'epochs': [200000], 'fixed_noise_size': [128], 'n_features_reduction_factor': [2],
                         'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [True],
@@ -656,29 +509,6 @@ JLSWGN_param_array1_2 = get_parameter_array(JLSWGN_param_dict1_2, ordered_keys=o
 
 JLSWGN_param_array1_ = JLSWGN_param_array1_1 + JLSWGN_param_array1_2
 
-# -------
-# celebA32_bw
-JLSWGN_param_dict2_0 = {'input_dim': [128], 'batch_size': [100, 250], 'n_features_first': [256],
-                        'learning_rate': [1e-4],
-                        'epochs': [100000], 'fixed_noise_size': [128], 'n_features_reduction_factor': [2],
-                        'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [False],
-                        'JL_dim': [32 * 32 / 2, None], 'JL_error': [None],
-                        'n_projections': [1000, 10000], 'data': ['celebA32_bw']}
-JLSWGN_param_array2_0 = get_parameter_array(JLSWGN_param_dict2_0, ordered_keys=ordered_keys_7)
-
-JLSWGN_param_array2 = JLSWGN_param_array2_0
-
-# -------
-# mnist
-JLSWGN_param_dict3_0 = {'input_dim': [10, 30, 50, 70], 'batch_size': [100], 'n_features_first': [256],
-                        'learning_rate': [1e-4],
-                        'epochs': [20000], 'fixed_noise_size': [128], 'n_features_reduction_factor': [2],
-                        'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [False],
-                        'JL_dim': [32 * 32 / 4], 'JL_error': [None],
-                        'n_projections': [1000], 'data': ['mnist']}
-JLSWGN_param_array3_0 = get_parameter_array(JLSWGN_param_dict3_0, ordered_keys=ordered_keys_7)
-
-JLSWGN_param_array3 = JLSWGN_param_array3_0
 
 # -------
 # celebA64
@@ -719,58 +549,6 @@ JLSWGN_MNIST_param_dict1_0 = {'input_dim': [128], 'batch_size': [250], 'learning
 
 JLSWGN_MNIST_param_array1_0 = get_parameter_array(JLSWGN_MNIST_param_dict1_0, ordered_keys=ordered_keys_8)
 
-# ------------------------------------------------------------------------
-# parameter arrays for parallel training of JLSWGN on artificially enlarged MNIST
-improved_JLSWGN_param_dict1_0 = {'data': ['mnist'], 'input_dim': [128], 'batch_size': [250, 1000],
-                                 'learning_rate': [5e-4],
-                                 'epochs': [20000], 'fixed_noise_size': [64],
-                                 'n_features_first': [256], 'n_features_reduction_factor': [2], 'min_features': [64],
-                                 'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [False],
-                                 'JL_dim': [32 * 32 / 4, None], 'JL_error': [None],
-                                 'n_projections': [1000],
-                                 'c_batch_size': [100], 'c_learning_rate': [1e-4], 'c_BN': [True],
-                                 'c_iterations': [500], 'c_n_features_last': [256],
-                                 'epsilon': [0, 0.25, 0.5, 0.75, 1]}
-
-improved_JLSWGN_param_array1_0 = get_parameter_array(improved_JLSWGN_param_dict1_0, ordered_keys=ordered_keys_9)
-
-# cifar10
-improved_JLSWGN_param_dict2_0 = {'data': ['cifar10'], 'input_dim': [128], 'batch_size': [100],
-                                 'learning_rate': [5e-4],
-                                 'epochs': [50000], 'fixed_noise_size': [64],
-                                 'n_features_first': [256], 'n_features_reduction_factor': [2], 'min_features': [64],
-                                 'architecture': ['JLSWGN'], 'init_method': ['He'], 'BN': [True],
-                                 'JL_dim': [32 * 32 / 2, None], 'JL_error': [None],
-                                 'n_projections': [1000],
-                                 'c_batch_size': [100], 'c_learning_rate': [1e-4], 'c_BN': [True],
-                                 'c_iterations': [2500], 'c_n_features_last': [256],
-                                 'epsilon': [0.25, 0.5, 0.75, 1]}
-
-improved_JLSWGN_param_array2_0 = get_parameter_array(improved_JLSWGN_param_dict2_0, ordered_keys=ordered_keys_9)
-
-# ------------------------------------------------------------------------
-# parameter arrays for parallel training of JL-SWGAN toy
-JLSWGAN_toy_param_dict1_0 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256],
-                             'learning_rate': [1e-2],
-                             'epochs': [1000], 'fixed_noise_size': [128],
-                             'architecture': ['JLSWGAN'], 'init_method': ['He'], 'BN': [True],
-                             'JL_dim': [None],
-                             'n_projections': [10000],
-                             'target_dim': [1000, 5000, 10000, 50000], 'target_number_samples': [10000],
-                             'target_sigma': [0.01], 'd_freq': [1], 'd_steps': [1]}
-JLSWGAN_toy_param_array1_0 = get_parameter_array(JLSWGAN_toy_param_dict1_0, ordered_keys=ordered_keys_11)
-
-JLSWGAN_toy_param_dict1_1 = {'input_dim': [128], 'batch_size': [50], 'n_features_first': [256],
-                             'learning_rate': [1e-2],
-                             'epochs': [4000], 'fixed_noise_size': [128],
-                             'architecture': ['JLSWGAN'], 'init_method': ['He'], 'BN': [True],
-                             'JL_dim': [360],
-                             'n_projections': [10000],
-                             'target_dim': [1000, 5000, 10000, 50000], 'target_number_samples': [10000],
-                             'target_sigma': [0.01], 'd_freq': [1], 'd_steps': [1]}
-JLSWGAN_toy_param_array1_1 = get_parameter_array(JLSWGAN_toy_param_dict1_1, ordered_keys=ordered_keys_11)
-
-JLSWGAN_toy_param_array1 = JLSWGAN_toy_param_array1_0 + JLSWGAN_toy_param_array1_1
 
 # ------------------------------------------------------------------------
 # parameter arrays for parallel training of JL-SWGAN
@@ -854,18 +632,4 @@ JLSWGAN_param_dict3_0 = {'data': ['celebA64'], 'input_dim': [128], 'batch_size':
                          'architecture': ['JLSWGAN'], 'init_method': ['He'], 'BN': [True], 'd_BN': ['BN', 'LN'],
                          'JL_dim': [512, None],
                          'n_projections': [1000]}
-
 JLSWGAN_param_array3_0 = get_parameter_array(JLSWGAN_param_dict3_0, ordered_keys=ordered_keys_10)
-
-JLSWGAN_param_dict3_1 = {'data': ['celebA64'], 'input_dim': [128], 'batch_size': [100],
-                         'learning_rate': [1e-4],
-                         'iterations': [100000], 'fixed_noise_size': [64],
-                         'n_features_first_g': [1024], 'n_features_reduction_factor': [2], 'min_features': [64],
-                         'n_features_last_d': [1024], 'extra_layer_g': [False], 'd_freq': [1], 'd_steps': [1],
-                         'architecture': ['JLSWGAN'], 'init_method': ['He'], 'BN': [True], 'd_BN': ['BN'],
-                         'JL_dim': [512, None],
-                         'n_projections': [1000, 10000]}
-
-JLSWGAN_param_array3_1 = get_parameter_array(JLSWGAN_param_dict3_1, ordered_keys=ordered_keys_10)
-
-JLSWGAN_param_array3 = JLSWGAN_param_array3_0 + JLSWGAN_param_array3_1

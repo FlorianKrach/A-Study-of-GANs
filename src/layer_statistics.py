@@ -1,7 +1,8 @@
 """
 author: Florian Krach
-modified code from: Minimal implementation of Wasserstein GAN for MNIST, https://github.com/adler-j/minimal_wgan
-also used parts from: Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
+used parts of the code of the following implementations:
+- Minimal implementation of Wasserstein GAN for MNIST, https://github.com/adler-j/minimal_wgan
+- Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
 """
 
 import numpy as np

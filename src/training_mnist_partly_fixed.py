@@ -1,7 +1,8 @@
 """
 author: Florian Krach
-modified code from: Minimal implementation of Wasserstein GAN for MNIST, https://github.com/adler-j/minimal_wgan
-also used parts from: Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
+used parts of the code of the following implementations:
+- Minimal implementation of Wasserstein GAN for MNIST, https://github.com/adler-j/minimal_wgan
+- Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
 """
 
 import numpy as np
@@ -27,6 +28,13 @@ CRITIC_ITERS = 5 # For WGAN and WGAN-GP, number of critic iters per gen iter
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 ITERS = 20000 # How many generator iterations to train for
 FIXED_NOISE_SIZE = 128
+
+if settings.euler:
+    N_CPUS_TF = 1  # set to None to use value of settings.py
+    N_CPUS_PARALLEL = 12  # set to None to use value of settings.py
+else:
+    N_CPUS_TF = 1  # set to None to use value of settings.py
+    N_CPUS_PARALLEL = 2  # set to None to use value of settings.py
 
 
 # FK: model summary of
@@ -259,8 +267,12 @@ def train(input_dim=INPUT_DIM, batch_size=BATCH_SIZE, n_features_first=N_FEATURE
     # -------------------------------------------------------
     # initialize a TF session
     config = tf.ConfigProto()
-    config.intra_op_parallelism_threads = settings.number_cpus
-    config.inter_op_parallelism_threads = settings.number_cpus
+    if N_CPUS_TF is None:
+        number_cpus_tf = settings.number_cpus
+    else:
+        number_cpus_tf = N_CPUS_TF
+    config.intra_op_parallelism_threads = number_cpus_tf
+    config.inter_op_parallelism_threads = number_cpus_tf
     session = tf.Session(config=config)
 
     # -------------------------------------------------------
@@ -813,7 +825,10 @@ if __name__ == '__main__':
     # -------------------------------------------------------
     # parallel training
     param_array = settings.param_array7
-    nb_jobs = settings.number_parallel_jobs
+    if N_CPUS_PARALLEL is None:
+        nb_jobs = settings.number_parallel_jobs
+    else:
+        nb_jobs = N_CPUS_PARALLEL
 
     parallel_training(parameters=param_array, nb_jobs=nb_jobs)
 

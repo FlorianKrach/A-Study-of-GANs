@@ -1,6 +1,7 @@
 """
 author: Florian Krach
-modified version of the code from: Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
+used parts of the code of the following implementations:
+- Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
 """
 
 import numpy as np

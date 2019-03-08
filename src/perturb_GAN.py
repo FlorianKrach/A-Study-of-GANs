@@ -1,5 +1,8 @@
 """
 author: Florian Krach
+used parts of the code of the following implementations:
+- Improved Wasserstein-GAN, https://github.com/igul222/improved_wgan_training
+- Minimal implementation of Wasserstein GAN for MNIST, https://github.com/adler-j/minimal_wgan
 """
 
 
