@@ -20,7 +20,7 @@ Code accompanying my master's thesis.
 - __training_subset_numbers_mnist.py__: code to train a DCGAN or WGAN-GP model on a subset of the MNIST dataset and to retrain only some of the layers afterwards on either the complementary subset or the entire dataset
 
 
-### General purpos
+### General purpose
 - __celeba_preprocessing.py__: code to preprocess the CelebA dataset, i.e. to cut out the wanted part of the pictures and to save them as numpy-array
 - __celeba.py__: code to load the numpy-arrays of the CelebA data, e.g. during training
 - __cifar10.py__: code to load the the CIFAR-10 data, e.g. during training
