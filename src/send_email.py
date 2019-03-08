@@ -1,5 +1,6 @@
 """
 author: Florian Krach
+based on: https://stackoverflow.com/questions/3362600/how-to-send-email-attachments?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 """
 
 import smtplib
