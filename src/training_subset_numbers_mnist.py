@@ -100,44 +100,6 @@ def discriminator(x, reuse, n_features_first=N_FEATURES_FIRST, n_features_reduct
         return layers.fully_connected(x, num_outputs=1, activation_fn=None, trainable=last_layer_trainable)
 
 
-# split up discriminator into two parts, to make gradient computation less expensive, if first layers are fixed
-def discriminator1(x, reuse, n_features_first=N_FEATURES_FIRST, n_features_reduction_factor=2, fix_first_layers=False,
-                   architecture='WGANGP', **kwargs):
-
-    first_layers_trainable = not fix_first_layers
-
-    if architecture == 'DCGAN':
-        normalizer = layers.batch_norm
-    else:  # WGAN-GP
-        normalizer = None
-
-    with tf.variable_scope('discriminator1', reuse=reuse):
-        x = layers.conv2d(x, num_outputs=int(n_features_first/(n_features_reduction_factor**2)), kernel_size=5,
-                          stride=2, activation_fn=leaky_relu, trainable=first_layers_trainable,
-                          normalizer_fn=normalizer)
-        return layers.conv2d(x, num_outputs=int(n_features_first/n_features_reduction_factor), kernel_size=5, stride=2,
-                             activation_fn=leaky_relu, trainable=first_layers_trainable, normalizer_fn=normalizer)
-
-
-def discriminator2(x, reuse, n_features_first=N_FEATURES_FIRST, fix_last_layer=False, fix_2last_layer=False,
-                   architecture='WGANGP', **kwargs):
-
-    last_layer_trainable = not fix_last_layer
-    last2_layer_trainable = not fix_2last_layer
-
-    if architecture == 'DCGAN':
-        normalizer = layers.batch_norm
-    else:  # WGAN-GP
-        normalizer = None
-
-    with tf.variable_scope('discriminator2', reuse=reuse):
-        x = layers.conv2d(x, num_outputs=n_features_first, kernel_size=5, stride=2,
-                          activation_fn=leaky_relu, trainable=last2_layer_trainable, normalizer_fn=normalizer)
-
-        x = layers.flatten(x)
-        return layers.fully_connected(x, num_outputs=1, activation_fn=None, trainable=last_layer_trainable)
-
-
 def subset_train(input_dim=INPUT_DIM, batch_size=BATCH_SIZE, n_features_first=N_FEATURES_FIRST,
                  critic_iters=CRITIC_ITERS, lambda_reg=LAMBDA, learning_rate=1e-4, epochs1=ITERS, epochs2 = ITERS,
                  fixed_noise_size=FIXED_NOISE_SIZE, n_features_reduction_factor=2,
