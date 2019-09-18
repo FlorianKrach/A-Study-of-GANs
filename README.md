@@ -1,5 +1,5 @@
 # A-Study-of-GANs
-Code accompanying my master's thesis. 
+Code accompanying my [master's thesis](MasterThesis_FlorianKrach.pdf). 
 
 ## List of Python files with description
 ### JL-SWG and JL-SWGAN
